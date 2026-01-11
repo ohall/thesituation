@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(docker compose:*)",
+      "Bash(open:*)",
+      "Bash(npm run db:push:*)",
+      "Bash(DATABASE_URL=postgresql://postgres:password@localhost:5432/situation npm run db:push:*)",
+      "Bash(DATABASE_URL=postgresql://postgres:password@localhost:5432/situation npx drizzle-kit push:*)",
+      "Bash(DATABASE_URL=postgresql://postgres:password@localhost:5432/situation npx drizzle-kit generate:*)",
+      "Bash(DATABASE_URL=postgresql://postgres:password@localhost:5432/situation npx drizzle-kit migrate:*)",
+      "Bash(npm run dev:*)",
+      "Bash(curl:*)",
+      "Bash(npm run lint:*)",
+      "Bash(npm install:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

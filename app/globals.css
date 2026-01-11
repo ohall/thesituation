@@ -1,0 +1,223 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Import fonts */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Overpass+Mono:wght@400;500;600&display=swap');
+
+:root {
+  /* Backgrounds */
+  --bg-primary: #0a0a0f;
+  --bg-secondary: #12121a;
+  --bg-tertiary: #1a1a24;
+  --bg-elevated: #22222e;
+  
+  /* Accents */
+  --accent-info: #00d4ff;
+  --accent-success: #00ff88;
+  --accent-warning: #ffb800;
+  --accent-danger: #ff2d55;
+  --accent-purple: #bf5af2;
+  
+  /* Text */
+  --text-primary: #ffffff;
+  --text-secondary: #a1a1aa;
+  --text-muted: #52525b;
+  
+  /* Severity */
+  --severity-critical: #ff2d55;
+  --severity-high: #ff6b35;
+  --severity-moderate: #ffb800;
+  --severity-low: #00d4ff;
+  --severity-info: #8b5cf6;
+  
+  /* Gradients */
+  --glow-critical: 0 0 20px rgba(255, 45, 85, 0.4);
+  --glow-high: 0 0 20px rgba(255, 107, 53, 0.4);
+  --glow-warning: 0 0 20px rgba(255, 184, 0, 0.4);
+  --glow-info: 0 0 20px rgba(0, 212, 255, 0.4);
+  
+  /* Fonts */
+  --font-geist: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-jetbrains: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
+  --font-overpass: 'Overpass Mono', 'Share Tech Mono', monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-geist);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--bg-tertiary);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* MapLibre overrides */
+.maplibregl-map {
+  font-family: var(--font-geist);
+}
+
+.maplibregl-ctrl-group {
+  background: var(--bg-secondary) !important;
+  border: 1px solid var(--bg-tertiary) !important;
+}
+
+.maplibregl-ctrl-group button {
+  background: transparent !important;
+}
+
+.maplibregl-ctrl-group button:hover {
+  background: var(--bg-tertiary) !important;
+}
+
+.maplibregl-ctrl-group button + button {
+  border-top: 1px solid var(--bg-tertiary) !important;
+}
+
+/* Custom component styles */
+@layer components {
+  .incident-card {
+    @apply relative overflow-hidden;
+    background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
+    border-left: 3px solid var(--severity-moderate);
+    border-radius: 6px;
+    backdrop-filter: blur(8px);
+  }
+  
+  .incident-card.severity-critical {
+    border-left-color: var(--severity-critical);
+    box-shadow: var(--glow-critical);
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+  
+  .incident-card.severity-high {
+    border-left-color: var(--severity-high);
+    box-shadow: var(--glow-high);
+  }
+  
+  .incident-card.severity-moderate {
+    border-left-color: var(--severity-moderate);
+  }
+  
+  .incident-card.severity-low {
+    border-left-color: var(--severity-low);
+  }
+  
+  .incident-card.severity-info {
+    border-left-color: var(--severity-info);
+  }
+  
+  .status-badge {
+    @apply inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium uppercase tracking-wider rounded;
+    font-family: var(--font-overpass);
+  }
+  
+  .status-badge.live {
+    @apply bg-accent-danger/20 text-accent-danger;
+  }
+  
+  .status-badge.alert {
+    @apply bg-accent-warning/20 text-accent-warning;
+  }
+  
+  .status-badge.info {
+    @apply bg-accent-info/20 text-accent-info;
+  }
+  
+  .tactical-panel {
+    background: var(--bg-secondary);
+    border: 1px solid var(--bg-tertiary);
+    border-radius: 8px;
+  }
+  
+  .tactical-header {
+    @apply flex items-center justify-between px-4 py-3;
+    border-bottom: 1px solid var(--bg-tertiary);
+    font-family: var(--font-overpass);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+  }
+  
+  .mono {
+    font-family: var(--font-jetbrains);
+  }
+  
+  .tactical {
+    font-family: var(--font-overpass);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+}
+
+/* Animations */
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1.01);
+  }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.blink {
+  animation: blink 1s ease-in-out infinite;
+}
+
+/* Utility classes */
+.text-gradient-danger {
+  background: linear-gradient(135deg, var(--severity-critical), var(--severity-high));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-info {
+  background: linear-gradient(135deg, var(--accent-info), var(--accent-purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.glow-critical {
+  box-shadow: var(--glow-critical);
+}
+
+.glow-info {
+  box-shadow: var(--glow-info);
+}
+
