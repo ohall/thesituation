@@ -1,0 +1,99 @@
+# Cursor Rules — Situation Monitor
+
+## Context Loading
+
+When starting work on this project, read these files first:
+1. `AGENTS.md` — Primary agent instructions and project conventions
+2. Relevant skill files in `.skills/` based on the task
+
+## Skill Activation
+
+Load skills from `.skills/` when working on related tasks:
+
+- **Next.js pages/routes**: Load `.skills/nextjs-app-router/SKILL.md`
+- **Database operations**: Load `.skills/drizzle-postgres/SKILL.md`
+- **New data sources**: Load `.skills/data-collector/SKILL.md`
+- **Map components**: Load `.skills/maplibre-react/SKILL.md`
+
+## Technology Stack
+
+- **Runtime**: Node.js 20 LTS
+- **Framework**: Next.js 14+ (App Router, NOT Pages Router)
+- **Language**: TypeScript strict mode — no `any` types
+- **Database**: PostgreSQL 16 + PostGIS via Drizzle ORM
+- **Maps**: MapLibre GL JS (NOT Mapbox)
+- **Styling**: Tailwind CSS with custom dark theme
+- **State**: Zustand
+- **Real-time**: Server-Sent Events (SSE)
+
+## Code Conventions
+
+### File Structure
+```
+app/           # Next.js App Router pages and API routes
+src/components # React components (PascalCase.tsx)
+src/collectors # Data source collectors
+src/stores     # Zustand stores
+src/db         # Drizzle schema and queries
+src/lib        # Utilities
+src/types      # TypeScript types
+```
+
+### Imports
+Use `@/` path alias for imports from `src/`:
+```typescript
+import { useIncidentStore } from '@/stores/incidents';
+import { db } from '@/db/client';
+```
+
+### Components
+- Functional components only
+- Mark client components with `'use client'`
+- Server components are default (no directive needed)
+
+### API Routes
+- Use Next.js Route Handlers in `app/api/[resource]/route.ts`
+- Validate with Zod at API boundaries
+- Support `bbox` param format: `sw_lng,sw_lat,ne_lng,ne_lat`
+
+### Database
+- Always use Drizzle ORM — no raw SQL except for PostGIS functions
+- Use `dedupe_key` for idempotent upserts
+- Spatial queries use PostGIS `ST_*` functions
+
+## Anti-Patterns (Don't Do)
+
+- ❌ Don't add microservices — monolith is intentional
+- ❌ Don't use Redis — PostgreSQL handles caching
+- ❌ Don't use WebSockets — SSE is sufficient
+- ❌ Don't use Mapbox — use MapLibre (free, no token)
+- ❌ Don't use Pages Router — use App Router only
+- ❌ Don't add user authentication — no accounts in MVP
+- ❌ Don't over-engineer — ship fast, optimize later
+
+## Theme Colors
+
+Dark tactical theme:
+```css
+--bg-primary: #0a0a0f
+--bg-secondary: #12121a
+--severity-critical: #ff2d55
+--severity-high: #ff6b35
+--severity-moderate: #ffb800
+--severity-low: #00d4ff
+```
+
+## Commands
+
+```bash
+npm run dev          # Development server
+npm run lint         # Type check + lint
+npm run db:migrate   # Run migrations
+```
+
+## Reference Documents
+
+- `system-design-proposal-mvp.md` — Architecture decisions
+- `situation-monitor-data-sources-v2_1.md` — API catalog
+- `PRD-situation-monitor.md` — Product requirements
+
