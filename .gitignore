@@ -41,6 +41,10 @@ drizzle/
 .idea/
 .vscode/
 
+# Claude Code local permissions. "Yes, and don't ask again" writes approved
+# shell commands here, which can include secrets. Never commit this file.
+.claude/settings.local.json
+
 # Secrets, tokens, and credentials
 .env.*
 *.env
